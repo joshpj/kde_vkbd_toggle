@@ -11,9 +11,9 @@ STDOUT->autoflush(1);
 my $bus = Net::DBus->session;
 
 # Prepare to query the org.kde.TabletMode setting
-my $portal = $bus->get_service('org.freedesktop.portal.Desktop');
-my $settings = $portal->get_object('/org/freedesktop/portal/desktop', 'org.freedesktop.portal.Settings');
-sub tablet_mode { $settings->ReadOne('org.kde.TabletMode', 'enabled'); }
+my $portal = $bus->get_service('org.kde.KWin');
+my $settings = $portal->get_object('/org/kde/KWin', 'org.kde.KWin.TabletModeManager');
+sub tablet_mode { $settings->tabletMode; }
 
 # Prepare to set the virtual keyboard state
 # This object appears to be accessible from both org.kde.KWin and org.freedesktop.a11y.Manager
@@ -37,25 +37,22 @@ if($start_state != $start_mode)
 sub handler
 {
 	my @args = @_;
-	if($args[0] eq 'org.kde.TabletMode' and $args[1] eq 'enabled')
+	if($args[0])
 	{
-		if($args[2])
-		{
-			# Tablet Mode
-			print "Entered tablet mode - enabling virtual keyboard\n";
-			vkbd_enable;
-		}
-		else
-		{
-			# Laptop Mode
-			print "Exited tablet mode - disabling virtual keyboard\n";
-			vkbd_disable;
-		}
+		# Tablet Mode
+		print "Entered tablet mode - enabling virtual keyboard\n";
+		vkbd_enable;
+	}
+	else
+	{
+		# Laptop Mode
+		print "Exited tablet mode - disabling virtual keyboard\n";
+		vkbd_disable;
 	}
 };
 
 # Attach the signal handler
-my $sig = $settings->connect_to_signal('SettingChanged', \&handler);
+my $sig = $settings->connect_to_signal('tabletModeChanged', \&handler);
 unless($sig)
 {
 	die("Failed to attach signal handler.\n");
