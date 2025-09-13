@@ -1,0 +1,8 @@
+[Unit]
+Description = Virtual Keyboard Toggle Hook
+
+[Service]
+ExecStart=/usr/local/bin/vkbd_toggle.pl
+
+[Install]
+WantedBy=default.target
