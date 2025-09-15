@@ -4,6 +4,18 @@ This is a script to automatically enable/disable the virtual keyboard when your 
 This will only work on KDE due to the DBus objects it uses.
 Tested on the Framework Laptop 12, but might work on other convertibles.
 
+# Dependencies
+
+On Debian / Ubuntu / similar:
+```
+sudo apt install libnet-dbus-perl
+```
+
+On Fedora / similar:
+```
+sudo yum install perl-Net-DBus
+```
+
 # Install
 
 Install the script for everybody:
