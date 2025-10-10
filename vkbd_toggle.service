@@ -1,8 +1,9 @@
 [Unit]
 Description = Virtual Keyboard Toggle Hook
+After=plasma-core.target
 
 [Service]
 ExecStart=/usr/local/bin/vkbd_toggle.pl
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
