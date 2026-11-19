@@ -19,9 +19,9 @@ sub tablet_mode { $settings->tabletMode; }
 # This object appears to be accessible from both org.kde.KWin and org.freedesktop.a11y.Manager
 my $vkbd_svc = $bus->get_service('org.kde.KWin');
 my $vkbd = $vkbd_svc->get_object('/VirtualKeyboard', 'org.freedesktop.DBus.Properties');
-sub vkbd_get { $vkbd->Get('org.kde.kwin.VirtualKeyboard', 'enabled'); }
-sub vkbd_enable { $vkbd->Set('org.kde.kwin.VirtualKeyboard', 'enabled', 1); }
-sub vkbd_disable { $vkbd->Set('org.kde.kwin.VirtualKeyboard', 'enabled', 0); }
+sub vkbd_get { $vkbd->Get('org.kde.kwin.VirtualKeyboard', 'mode'); }
+sub vkbd_enable { $vkbd->Set('org.kde.kwin.VirtualKeyboard', 'mode', 1); }
+sub vkbd_disable { $vkbd->Set('org.kde.kwin.VirtualKeyboard', 'mode', 0); }
 
 # Check and correct the initial state
 my $start_mode = tablet_mode;
